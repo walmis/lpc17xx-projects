@@ -107,7 +107,6 @@ int main() {
 	device.connect();
 	//hal.connect();
 
-
 	//stdout.printf("clk %d\n", SystemCoreClock);
 
 	radio.init();

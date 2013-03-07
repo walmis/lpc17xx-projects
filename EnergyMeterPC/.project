@@ -3,6 +3,7 @@
 	<name>EnergyMeterPC</name>
 	<comment></comment>
 	<projects>
+		<project>xpcc</project>
 	</projects>
 	<buildSpec>
 		<buildCommand>

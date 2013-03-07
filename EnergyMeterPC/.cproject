@@ -30,6 +30,7 @@
 								<option id="gnu.c.compiler.option.debugging.level.628506288" name="Debug Level" superClass="gnu.c.compiler.option.debugging.level" value="gnu.c.debugging.level.none" valueType="enumerated"/>
 								<option id="gnu.c.compiler.option.misc.other.542182815" name="Other flags" superClass="gnu.c.compiler.option.misc.other" value="-Wno-write-strings -c -fmessage-length=0 -mthumb -finline-functions -ffunction-sections -fdata-sections  -mcpu=cortex-m3 -mlong-calls -mthumb-interwork" valueType="string"/>
 								<option id="gnu.c.compiler.option.include.paths.151681972" name="Include paths (-I)" superClass="gnu.c.compiler.option.include.paths" valueType="includePath">
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/xpcc}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/lpc17xx/cmsis}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/usbstack/inc}&quot;"/>
@@ -47,6 +48,7 @@
 								<option id="gnu.cpp.compiler.option.debugging.level.198500155" name="Debug Level" superClass="gnu.cpp.compiler.option.debugging.level" value="gnu.cpp.compiler.debugging.level.none" valueType="enumerated"/>
 								<option id="gnu.cpp.compiler.option.other.other.359987823" name="Other flags" superClass="gnu.cpp.compiler.option.other.other" value="-Wno-write-strings -c -fmessage-length=0 -mthumb -ffunction-sections -fdata-sections  -mcpu=cortex-m3 -fno-rtti -fno-exceptions -std=gnu++11" valueType="string"/>
 								<option id="gnu.cpp.compiler.option.include.paths.1280403109" name="Include paths (-I)" superClass="gnu.cpp.compiler.option.include.paths" valueType="includePath">
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/xpcc}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/lpc17xx/cmsis}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/usbstack/inc}&quot;"/>
@@ -89,7 +91,9 @@
 							</tool>
 							<tool id="cdt.managedbuild.tool.gnu.cross.archiver.1415804371" name="Cross GCC Archiver" superClass="cdt.managedbuild.tool.gnu.cross.archiver"/>
 							<tool id="cdt.managedbuild.tool.gnu.cross.assembler.820368839" name="Cross GCC Assembler" superClass="cdt.managedbuild.tool.gnu.cross.assembler">
-								<option id="gnu.both.asm.option.include.paths.1223530909" name="Include paths (-I)" superClass="gnu.both.asm.option.include.paths"/>
+								<option id="gnu.both.asm.option.include.paths.1223530909" name="Include paths (-I)" superClass="gnu.both.asm.option.include.paths" valueType="includePath">
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/xpcc}&quot;"/>
+								</option>
 								<inputType id="cdt.managedbuild.tool.gnu.assembler.input.1873813709" superClass="cdt.managedbuild.tool.gnu.assembler.input"/>
 							</tool>
 						</toolChain>
@@ -104,6 +108,13 @@
 					<externalSetting contentTypes="org.eclipse.cdt.managedbuilder.core.compiledObjectFile"/>
 					<externalSetting contentTypes="org.eclipse.cdt.core.cxxSource"/>
 					<externalSetting contentTypes="org.eclipse.cdt.core.cSource"/>
+				</externalSettings>
+				<externalSettings containerId="xpcc;" factoryId="org.eclipse.cdt.core.cfg.export.settings.sipplier">
+					<externalSetting>
+						<entry flags="VALUE_WORKSPACE_PATH" kind="includePath" name="/xpcc"/>
+						<entry flags="VALUE_WORKSPACE_PATH" kind="libraryPath" name="/xpcc/LPC17xx"/>
+						<entry flags="RESOLVED" kind="libraryFile" name="xpcc" srcPrefixMapping="" srcRootPath=""/>
+					</externalSetting>
 				</externalSettings>
 			</storageModule>
 			<storageModule moduleId="packages"/>
