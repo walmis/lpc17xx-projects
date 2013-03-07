@@ -1,0 +1,10 @@
+#!/bin/bash
+
+arm-none-eabi-objcopy -O ihex "${1}" "${1}.hex"
+
+arm-none-eabi-objcopy -O binary "${1}" "${1}.bin"
+
+arm-none-eabi-size "${1}"
+
+mkfw "${1}".bin "${1}".fw
+
