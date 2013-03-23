@@ -5,6 +5,8 @@
  *      Author: walmis
  */
 #include <lpc17xx_nvic.h>
+#include <lpc17xx_uart.h>
+#include <lpc17xx_pinsel.h>
 
 #include <xpcc/architecture.hpp>
 #include <xpcc/workflow.hpp>
@@ -13,19 +15,65 @@
 #include <xpcc/driver/connectivity/wireless/at86rf230.hpp>
 #include <xpcc/communication/TinyRadioProtocol.hpp>
 
+#include "WirelessUart.hpp"
+
 using namespace xpcc;
 
 const char fwversion[16] __attribute__((used, section(".fwversion"))) = "v0.11";
 
-GPIO__OUTPUT(greenLed, 2, 9);
-GPIO__OUTPUT(redLed, 2, 8);
-GPIO__INPUT(progPin, 2, 10);
-GPIO__OUTPUT(usbConnPin, 0, 11);
+#include "pindefs.hpp"
 
-GPIO__OUTPUT(radioRst, 4, 28);
-GPIO__OUTPUT(radioSel, 2, 0);
-GPIO__IO(radioSlpTr, 0, 6);
-GPIO__INPUT(radioIrq, 2, 1);
+class UARTDevice : public IODevice {
+public:
+	UARTDevice(int baud) {
+
+		UART_CFG_Type cfg;
+		UART_FIFO_CFG_Type fifo_cfg;
+
+		UART_ConfigStructInit(&cfg);
+		cfg.Baud_rate = baud;
+
+		UART_Init(LPC_UART0, &cfg);
+
+		PINSEL_CFG_Type PinCfg;
+
+		PinCfg.Funcnum = 1;
+		PinCfg.OpenDrain = 0;
+		PinCfg.Pinmode = 0;
+		PinCfg.Pinnum = 2;
+		PinCfg.Portnum = 0;
+		PINSEL_ConfigPin(&PinCfg);
+		PinCfg.Pinnum = 3;
+		PINSEL_ConfigPin(&PinCfg);
+
+		UART_Init(LPC_UART0, &cfg);
+
+		UART_FIFOConfigStructInit(&fifo_cfg);
+
+		UART_FIFOConfig(LPC_UART0, &fifo_cfg);
+
+		UART_TxCmd(LPC_UART0, ENABLE);
+
+	}
+
+	void
+	write(char c) {
+		while (!(LPC_UART0->LSR & UART_LSR_THRE)) {
+		}
+
+		UART_SendByte(LPC_UART0, c);
+	};
+
+	void
+	flush(){};
+
+	/// Read a single character
+	bool read(char& c) {
+		return false;
+	}
+
+};
+
 
 void boot_jump( uint32_t address ){
    __asm("LDR SP, [R0]\n"
@@ -50,42 +98,61 @@ void sysTick() {
 xpcc::lpc17::USBSerial device(0xffff);
 
 xpcc::IOStream stdout(device);
-xpcc::log::Logger xpcc::log::debug(device);
 
+UARTDevice uart(115200);
+//xpcc::log::Logger xpcc::log::debug(device);
+xpcc::log::Logger xpcc::log::debug(uart);
 
-xpcc::rf230::Driver<xpcc::lpc::SpiMaster1, radioRst, radioSel, radioSlpTr> rf_driver;
+xpcc::rf230::Driver<xpcc::lpc::SpiMaster1, radioRst, radioSel, radioSlpTr> rf230drvr;
 
-TinyRadioProtocol<typeof(rf_driver), AES_CCM_32> radio(rf_driver);
+//TinyRadioProtocol<typeof(rf230drvr), AES_CCM_32> radio(rf230drvr);
+WirelessUart<typeof(rf230drvr), AES_CCM_32> radio(rf230drvr);
 
 void Gpio2Handler(uint8_t pin, lpc17::IntEvent edge) {
 	if(pin == 1) {
-		rf_driver.IRQHandler();
+		XPCC_LOG_DEBUG << "*\n";
+		rf230drvr.IRQHandler();
 	}
 }
 
 
 
-extern "C" void HardFault_Handler() {
 
-	greenLed::set(0);
+enum { r0, r1, r2, r3, r12, lr, pc, psr};
 
-	//stdout.printf("fault\n");
+extern "C" void HardFault_Handler(void)
+{
+  asm volatile("MRS r0, MSP;"
+		       "B Hard_Fault_Handler");
+}
+
+extern "C"
+void Hard_Fault_Handler(uint32_t stack[]) {
+
+	//register uint32_t* stack = (uint32_t*)__get_MSP();
+
+	XPCC_LOG_DEBUG .printf("Hard Fault\n");
+
+	XPCC_LOG_DEBUG .printf("r0  = 0x%08x\n", stack[r0]);
+	XPCC_LOG_DEBUG .printf("r1  = 0x%08x\n", stack[r1]);
+	XPCC_LOG_DEBUG .printf("r2  = 0x%08x\n", stack[r2]);
+	XPCC_LOG_DEBUG .printf("r3  = 0x%08x\n", stack[r3]);
+	XPCC_LOG_DEBUG .printf("r12 = 0x%08x\n", stack[r12]);
+	XPCC_LOG_DEBUG .printf("lr  = 0x%08x\n", stack[lr]);
+	XPCC_LOG_DEBUG .printf("pc  = 0x%08x\n", stack[pc]);
+	XPCC_LOG_DEBUG .printf("psr = 0x%08x\n", stack[psr]);
 
 	while(1) {
-		//USB_IRQHandler();
+		if(!progPin::read()) {
+			for(int i = 0; i < 10000; i++) {}
+			NVIC_SystemReset();
+		}
 	}
-}
-
-extern "C" void BusFault_Handler() {
-
-	//greenLed::set(0);
-
-	while(1);
 }
 
 int main() {
-	greenLed::setOutput(1);
-	redLed::setOutput(1);
+	greenLed::setOutput(0);
+	redLed::setOutput(0);
 
 	xpcc::Random::seed();
 
@@ -116,25 +183,20 @@ int main() {
 
 	lpc17::GpioInterrupt::enableGlobalInterrupts();
 
-
-	rf_driver.rxOn();
+	rf230drvr.rxOn();
 
 	int count = 0;
 	while(1) {
 
 		if(t.isExpired()) {
 			//greenLed::toggle();
-			redLed::toggle();
+			//redLed::toggle();
 
-			//radio.send(0x0001, (uint8_t*)"labas", 5, 0, FrameType::DATA, TX_ACKREQ);
+			//int x = radio.send(0x0010, (uint8_t*)"labas", 5, 0, FrameType::DATA, TX_ACKREQ | TX_ENCRYPT);
+			//XPCC_LOG_DEBUG .printf("res %d\n", x);
+			//radio.associate(0x0010);
 
-
-			//radio.sendFrame(f);
-
-			//stdout.printf("labas %d\n", count++);
-
-			//test.callVirtual();
-
+			radio.sendData((uint8_t*)0x1000, 512);
 
 		}
 		radio.poll();
