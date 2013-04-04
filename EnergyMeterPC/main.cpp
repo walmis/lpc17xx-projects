@@ -80,20 +80,7 @@ void boot_jump( uint32_t address ){
    "LDR PC, [R0, #4]");
 }
 
-void sysTick() {
-	LPC_WDT->WDFEED = 0xAA;
-	LPC_WDT->WDFEED = 0x55;
 
-	if(progPin::read() == 0) {
-		//NVIC_SystemReset();
-
-		NVIC_DeInit();
-
-		LPC_WDT->WDFEED = 0x56;
-
-		//boot_jump(0);
-	}
-}
 
 xpcc::lpc17::USBSerial device(0xffff);
 
@@ -103,19 +90,10 @@ UARTDevice uart(115200);
 //xpcc::log::Logger xpcc::log::debug(device);
 xpcc::log::Logger xpcc::log::debug(uart);
 
-xpcc::rf230::Driver<xpcc::lpc::SpiMaster1, radioRst, radioSel, radioSlpTr> rf230drvr;
+xpcc::rf230::Driver<xpcc::lpc::SpiMaster1, radioRst, radioSel, radioSlpTr, radioIrq> rf230drvr;
 
 //TinyRadioProtocol<typeof(rf230drvr), AES_CCM_32> radio(rf230drvr);
 WirelessUart<typeof(rf230drvr), AES_CCM_32> radio(rf230drvr);
-
-void Gpio2Handler(uint8_t pin, lpc17::IntEvent edge) {
-	if(pin == 1) {
-		XPCC_LOG_DEBUG << "*\n";
-		rf230drvr.IRQHandler();
-	}
-}
-
-
 
 
 enum { r0, r1, r2, r3, r12, lr, pc, psr};
@@ -150,57 +128,68 @@ void Hard_Fault_Handler(uint32_t stack[]) {
 	}
 }
 
+void sysTick() {
+	LPC_WDT->WDFEED = 0xAA;
+	LPC_WDT->WDFEED = 0x55;
+
+	if(progPin::read() == 0) {
+		//NVIC_SystemReset();
+
+		NVIC_DeInit();
+
+		LPC_WDT->WDFEED = 0x56;
+
+		//boot_jump(0);
+	}
+}
+
+
 int main() {
+	lpc17::SysTickTimer::enable();
+	lpc17::SysTickTimer::attachInterrupt(sysTick);
+
 	greenLed::setOutput(0);
 	redLed::setOutput(0);
 
 	xpcc::Random::seed();
 
-	lpc17::GpioInterrupt::enableInterrupt(2, 1, lpc17::IntSense::EDGE,
-			lpc17::IntEdge::SINGLE, lpc17::IntEvent::RISING_EDGE);
-
-	lpc17::GpioInterrupt::registerPortHandler(2, Gpio2Handler);
-
 	lpc::SpiMaster1::configurePins();
 	lpc::SpiMaster1::initialize(lpc::SpiMaster1::Mode::MODE_0,
 			lpc::SpiMaster1::Prescaler::DIV002, 4);
 
-	lpc17::SysTickTimer::enable();
-	lpc17::SysTickTimer::attachInterrupt(sysTick);
 
 	xpcc::PeriodicTimer<> t(500);
 
 	usbConnPin::setOutput(true);
 	device.connect();
-	//hal.connect();
 
-	//stdout.printf("clk %d\n", SystemCoreClock);
 
 	radio.init();
 
 	radio.setPanId(0x1234);
 	radio.setAddress(0x3210);
 
-	lpc17::GpioInterrupt::enableGlobalInterrupts();
 
 	rf230drvr.rxOn();
 
-	int count = 0;
-	while(1) {
 
-		if(t.isExpired()) {
-			//greenLed::toggle();
-			//redLed::toggle();
+	TickerTask::tasksRun();
 
-			//int x = radio.send(0x0010, (uint8_t*)"labas", 5, 0, FrameType::DATA, TX_ACKREQ | TX_ENCRYPT);
-			//XPCC_LOG_DEBUG .printf("res %d\n", x);
-			//radio.associate(0x0010);
-
-			radio.sendData((uint8_t*)0x1000, 512);
-
-		}
-		radio.poll();
-
-
-	}
+//	while(1) {
+//
+//		if(t.isExpired()) {
+//			//greenLed::toggle();
+//			//redLed::toggle();
+//
+//			//int x = radio.send(0x0010, (uint8_t*)"labas", 5, 0, FrameType::DATA, TX_ACKREQ | TX_ENCRYPT);
+//			//XPCC_LOG_DEBUG .printf("res %d\n", x);
+//			//radio.associate(0x0010);
+//
+//			radio.sendData((uint8_t*)0x1000, 512);
+//
+//		}
+//
+//
+//
+//	}
 }

@@ -22,7 +22,7 @@
 					<folderInfo id="cdt.managedbuild.config.gnu.cross.exe.release.735040115." name="/" resourcePath="">
 						<toolChain id="cdt.managedbuild.toolchain.gnu.cross.exe.release.1326684249" name="Cross GCC" nonInternalBuilderId="cdt.managedbuild.builder.gnu.cross" resourceTypeBasedDiscovery="true" superClass="cdt.managedbuild.toolchain.gnu.cross.exe.release">
 							<option id="cdt.managedbuild.option.gnu.cross.prefix.1091853966" name="Prefix" superClass="cdt.managedbuild.option.gnu.cross.prefix" value="arm-none-eabi-" valueType="string"/>
-							<option id="cdt.managedbuild.option.gnu.cross.path.1428574869" name="Path" superClass="cdt.managedbuild.option.gnu.cross.path" value="/home/walmis/arm-2012.09/bin" valueType="string"/>
+							<option id="cdt.managedbuild.option.gnu.cross.path.1428574869" name="Path" superClass="cdt.managedbuild.option.gnu.cross.path" value="/${HOME}/arm-none-eabi/bin" valueType="string"/>
 							<targetPlatform archList="all" binaryParser="org.eclipse.cdt.core.ELF" id="cdt.managedbuild.targetPlatform.gnu.cross.2138753135" isAbstract="false" osList="all" superClass="cdt.managedbuild.targetPlatform.gnu.cross"/>
 							<builder autoBuildTarget="all" buildPath="${workspace_loc:/EnergyMeterPC}/Release" cleanBuildTarget="clean" id="org.eclipse.cdt.build.core.internal.builder.1204558785" incrementalBuildTarget="all" keepEnvironmentInBuildfile="false" managedBuildOn="true" name="CDT Internal Builder" superClass="org.eclipse.cdt.build.core.internal.builder"/>
 							<tool id="cdt.managedbuild.tool.gnu.cross.c.compiler.1244265047" name="Cross GCC Compiler" superClass="cdt.managedbuild.tool.gnu.cross.c.compiler">
@@ -30,9 +30,11 @@
 								<option id="gnu.c.compiler.option.debugging.level.628506288" name="Debug Level" superClass="gnu.c.compiler.option.debugging.level" value="gnu.c.debugging.level.none" valueType="enumerated"/>
 								<option id="gnu.c.compiler.option.misc.other.542182815" name="Other flags" superClass="gnu.c.compiler.option.misc.other" value="-Wno-write-strings -c -fmessage-length=0 -mthumb -finline-functions -ffunction-sections -fdata-sections  -mcpu=cortex-m3" valueType="string"/>
 								<option id="gnu.c.compiler.option.include.paths.151681972" name="Include paths (-I)" superClass="gnu.c.compiler.option.include.paths" valueType="includePath">
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/lpc17xx/cmsis}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/xpcc}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/xpcc/ext/lpc17xx/cmsis}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/xpcc/ext/lpc17xx/driver/include}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/lpc17xx/driver/include}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/xpcc/ext}&quot;"/>
 								</option>
 								<option id="gnu.c.compiler.option.preprocessor.nostdinc.2073514598" name="Do not search system directories (-nostdinc)" superClass="gnu.c.compiler.option.preprocessor.nostdinc" value="false" valueType="boolean"/>
 								<option id="gnu.c.compiler.option.include.files.1645654094" name="Include files (-include)" superClass="gnu.c.compiler.option.include.files"/>
@@ -46,12 +48,12 @@
 								<option id="gnu.cpp.compiler.option.debugging.level.198500155" name="Debug Level" superClass="gnu.cpp.compiler.option.debugging.level" value="gnu.cpp.compiler.debugging.level.none" valueType="enumerated"/>
 								<option id="gnu.cpp.compiler.option.other.other.359987823" name="Other flags" superClass="gnu.cpp.compiler.option.other.other" value="-Wno-write-strings -c -fmessage-length=0 -mthumb -ffunction-sections -fdata-sections  -mcpu=cortex-m3 -fno-rtti -fno-exceptions -std=gnu++11" valueType="string"/>
 								<option id="gnu.cpp.compiler.option.include.paths.1280403109" name="Include paths (-I)" superClass="gnu.cpp.compiler.option.include.paths" valueType="includePath">
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/xpcc}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/xpcc/ext/lpc17xx/cmsis}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/xpcc/ext/lpc17xx/driver/include}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/xpcc/ext}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/xpcc/src}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/lpc17xx/cmsis}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/usbstack/inc}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/liblpcxx}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/lpc17xx/driver/include}&quot;"/>
 								</option>
 								<option id="gnu.cpp.compiler.option.preprocessor.nostdinc.899032789" name="Do not search system directories (-nostdinc)" superClass="gnu.cpp.compiler.option.preprocessor.nostdinc" value="false" valueType="boolean"/>
 								<option id="gnu.cpp.compiler.option.preprocessor.def.297191578" name="Defined symbols (-D)" superClass="gnu.cpp.compiler.option.preprocessor.def" valueType="definedSymbols">
@@ -65,9 +67,11 @@
 							<tool command="g++" id="cdt.managedbuild.tool.gnu.cross.cpp.linker.819261231" name="Cross G++ Linker" superClass="cdt.managedbuild.tool.gnu.cross.cpp.linker">
 								<option id="gnu.cpp.link.option.other.2009942926" name="Other options (-Xlinker [option])" superClass="gnu.cpp.link.option.other" valueType="stringList">
 									<listOptionValue builtIn="false" value="--gc-sections"/>
+									<listOptionValue builtIn="false" value="--no-as-needed"/>
+									<listOptionValue builtIn="false" value="-Map=prog.map"/>
 									<listOptionValue builtIn="false" value="-T ../lpc17xx/linkscript.ld"/>
 								</option>
-								<option id="gnu.cpp.link.option.flags.1214636028" name="Linker flags" superClass="gnu.cpp.link.option.flags" value="-Wl,-Map,prog.map -mthumb -mcpu=cortex-m3" valueType="string"/>
+								<option id="gnu.cpp.link.option.flags.1214636028" name="Linker flags" superClass="gnu.cpp.link.option.flags" value="-mthumb -mcpu=cortex-m3 --specs=nano.specs -u default_irq_handler" valueType="string"/>
 								<option id="gnu.cpp.link.option.nostart.1155670417" name="Do not use standard start files (-nostartfiles)" superClass="gnu.cpp.link.option.nostart" value="true" valueType="boolean"/>
 								<option id="gnu.cpp.link.option.nodeflibs.1378737972" name="Do not use default libraries (-nodefaultlibs)" superClass="gnu.cpp.link.option.nodeflibs" value="true" valueType="boolean"/>
 								<option id="gnu.cpp.link.option.nostdlibs.1886830719" name="No startup or default libs (-nostdlib)" superClass="gnu.cpp.link.option.nostdlibs" value="true" valueType="boolean"/>
@@ -87,14 +91,16 @@
 								<outputType id="cdt.managedbuild.tool.gnu.cpp.linker.output.so.957424116" outputPrefix="" superClass="cdt.managedbuild.tool.gnu.cpp.linker.output.so"/>
 							</tool>
 							<tool id="cdt.managedbuild.tool.gnu.cross.archiver.1415804371" name="Cross GCC Archiver" superClass="cdt.managedbuild.tool.gnu.cross.archiver"/>
-							<tool id="cdt.managedbuild.tool.gnu.cross.assembler.820368839" name="Cross GCC Assembler" superClass="cdt.managedbuild.tool.gnu.cross.assembler">
-								<option id="gnu.both.asm.option.include.paths.1223530909" name="Include paths (-I)" superClass="gnu.both.asm.option.include.paths"/>
+							<tool command="as -mcpu=cortex-m3" id="cdt.managedbuild.tool.gnu.cross.assembler.820368839" name="Cross GCC Assembler" superClass="cdt.managedbuild.tool.gnu.cross.assembler">
+								<option id="gnu.both.asm.option.include.paths.1223530909" name="Include paths (-I)" superClass="gnu.both.asm.option.include.paths" valueType="includePath">
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/xpcc}&quot;"/>
+								</option>
 								<inputType id="cdt.managedbuild.tool.gnu.assembler.input.1873813709" superClass="cdt.managedbuild.tool.gnu.assembler.input"/>
 							</tool>
 						</toolChain>
 					</folderInfo>
 					<sourceEntries>
-						<entry excluding="xpcc/src/xpcc/architecture/board|xpcc/src/xpcc/architecture/platform/cortex_m3/lpc/USBDevice/USBHID|types.h|xpcc/src/xpcc/driver/gpio|xpcc/src/xpcc/driver/pwm|timer.h|xpcc/src/xpcc/workflow/rtos|usb_serial.c|serial_fifo.h|debug.c|xpcc/src/xpcc/driver/adc|Radio.h|xpcc/src/xpcc/driver/connectivity|Radio.cpp|sys/syscalls.c|USBDevice/USBMIDI|xpcc/src/xpcc/architecture/platform/avr32|xpcc/src/xpcc/debug/logger/hosted|xpcc/examples|usb|xpcc/tools|usb/USBSerial.cpp|debug.h|xpcc/src/xpcc/driver/storage|liblpcxx|USBDevice/USBAudio|xpcc/src/xpcc/architecture/platform/cortex_m3/lpc/USBDevice/USBDevice/USBHAL_KL25Z.cpp|xpcc/scons|xpcc/src/xpcc/architecture/platform/hosted|serial_fifo.c|usb_serial.h|xpcc/src/xpcc/communication/backend|xpcc/src/xpcc/driver/temperature|xpcc/src/xpcc/driver/other|xpcc/src/xpcc/architecture/platform/cortex_m3/lpc/startup|xpcc/src/xpcc/driver/time|xpcc/doc|xpcc/src/xpcc/architecture/platform/avr|xpcc/templates|xpcc/src/unittest|xpcc/release|xpcc/src/xpcc/driver/dac|xpcc/ext|xpcc/tests|xpcc/src/xpcc/architecture/platform/cortex_m3/lpc/USBDevice/USBDevice/USBHAL_LPC11U.cpp|xpcc/src/xpcc/architecture/platform/cortex_m0|USBDevice/USBHID|xpcc/src/xpcc/architecture/platform/cortex_m3/stm32|xpcc/src/xpcc/architecture/platform/cortex_m3/lpc/USBDevice/USBAudio|USBDevice/USBMSD|timer.c|xpcc/src/xpcc/architecture/platform/cortex_m3/lpc/USBDevice/USBMSD|sys/strtol.c|xpcc/src/xpcc/architecture/platform/cortex_m3/lpc/USBDevice/USBMIDI|sys/LPC1xxx_startup.c|xpcc/src/xpcc/driver/inertial|xpcc/src/xpcc/driver/pressure|xpcc/src/xpcc/architecture/platform/arm7|xpcc/src/xpcc/driver/ui|mbed|hid_test.c" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name=""/>
+						<entry excluding="main.cpp|xpcc/src/xpcc/architecture/board|xpcc/src/xpcc/architecture/platform/cortex_m3/lpc/USBDevice/USBHID|types.h|xpcc/src/xpcc/driver/gpio|xpcc/src/xpcc/driver/pwm|timer.h|xpcc/src/xpcc/workflow/rtos|usb_serial.c|serial_fifo.h|debug.c|xpcc/src/xpcc/driver/adc|Radio.h|xpcc/src/xpcc/driver/connectivity|Radio.cpp|sys/syscalls.c|USBDevice/USBMIDI|xpcc/src/xpcc/architecture/platform/avr32|xpcc/src/xpcc/debug/logger/hosted|xpcc/examples|usb|xpcc/tools|usb/USBSerial.cpp|debug.h|xpcc/src/xpcc/driver/storage|liblpcxx|USBDevice/USBAudio|xpcc/src/xpcc/architecture/platform/cortex_m3/lpc/USBDevice/USBDevice/USBHAL_KL25Z.cpp|xpcc/scons|xpcc/src/xpcc/architecture/platform/hosted|serial_fifo.c|usb_serial.h|xpcc/src/xpcc/communication/backend|xpcc/src/xpcc/driver/temperature|xpcc/src/xpcc/driver/other|xpcc/src/xpcc/architecture/platform/cortex_m3/lpc/startup|xpcc/src/xpcc/driver/time|xpcc/doc|xpcc/src/xpcc/architecture/platform/avr|xpcc/templates|xpcc/src/unittest|xpcc/release|xpcc/src/xpcc/driver/dac|xpcc/ext|xpcc/tests|xpcc/src/xpcc/architecture/platform/cortex_m3/lpc/USBDevice/USBDevice/USBHAL_LPC11U.cpp|xpcc/src/xpcc/architecture/platform/cortex_m0|USBDevice/USBHID|xpcc/src/xpcc/architecture/platform/cortex_m3/stm32|xpcc/src/xpcc/architecture/platform/cortex_m3/lpc/USBDevice/USBAudio|USBDevice/USBMSD|timer.c|xpcc/src/xpcc/architecture/platform/cortex_m3/lpc/USBDevice/USBMSD|sys/strtol.c|xpcc/src/xpcc/architecture/platform/cortex_m3/lpc/USBDevice/USBMIDI|sys/LPC1xxx_startup.c|xpcc/src/xpcc/driver/inertial|xpcc/src/xpcc/driver/pressure|xpcc/src/xpcc/architecture/platform/arm7|xpcc/src/xpcc/driver/ui|mbed|hid_test.c" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name=""/>
 					</sourceEntries>
 				</configuration>
 			</storageModule>
@@ -103,6 +109,13 @@
 					<externalSetting contentTypes="org.eclipse.cdt.managedbuilder.core.compiledObjectFile"/>
 					<externalSetting contentTypes="org.eclipse.cdt.core.cxxSource"/>
 					<externalSetting contentTypes="org.eclipse.cdt.core.cSource"/>
+				</externalSettings>
+				<externalSettings containerId="xpcc;cdt.managedbuild.config.gnu.cross.exe.release.735040115.1597797067" factoryId="org.eclipse.cdt.core.cfg.export.settings.sipplier">
+					<externalSetting>
+						<entry flags="VALUE_WORKSPACE_PATH" kind="includePath" name="/xpcc"/>
+						<entry flags="VALUE_WORKSPACE_PATH" kind="libraryPath" name="/xpcc/LPC17xx"/>
+						<entry flags="RESOLVED" kind="libraryFile" name="xpcc" srcPrefixMapping="" srcRootPath=""/>
+					</externalSetting>
 				</externalSettings>
 			</storageModule>
 			<storageModule moduleId="packages"/>

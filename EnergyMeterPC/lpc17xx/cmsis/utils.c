@@ -8,7 +8,7 @@
 #include "utils.h"
 #include <inttypes.h>
 #include <string.h>
-#include <LPC17xx.h>
+#include <lpc17xx/cmsis/LPC17xx.h>
 
 
 void _delay_us(uint32_t us) {

@@ -43,7 +43,7 @@
  * are weakly aliased which means that (re)definitions will overide these.
  *****************************************************************************/
 
-void irq_undefined() {
+void fault_undefined() {
   // Do nothing when occured interrupt is not defined, just keep looping
   while(1);
 }
@@ -54,9 +54,14 @@ void irq_undefined() {
  * Forward undefined fault handlers to an infinite loop function. The Handlers
  * are weakly aliased which means that (re)definitions will overide these.
  ****************************************************************************/
-#include <LPC17xx.h>
-void fault_undefined() {
-	while(1);
+
+
+
+extern void default_irq_handler();
+
+void irq_undefined() {
+  // Do nothing when occured interrupt is not defined, just keep looping
+	default_irq_handler();
 }
 
 void NMI_Handler(void)          WEAK_ALIAS(fault_undefined);

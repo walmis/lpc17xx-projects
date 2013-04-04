@@ -24,7 +24,7 @@
 
 
 #include <stdint.h>
-#include <LPC17xx.h>
+#include <lpc17xx/cmsis/LPC17xx.h>
 
 
 /** @addtogroup LPC17xx_System
